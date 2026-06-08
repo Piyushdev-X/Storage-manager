@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { AlertTriangle, Clock } from 'lucide-react';
 
 const Reports = () => {
@@ -11,8 +11,8 @@ const Reports = () => {
     const fetchReports = async () => {
       try {
         const [lowStockRes, expiringRes] = await Promise.all([
-          axios.get('http://localhost:5005/api/reports/low-stock'),
-          axios.get('http://localhost:5005/api/reports/expiring-soon')
+          api.get('/api/reports/low-stock'),
+          api.get('/api/reports/expiring-soon')
         ]);
         setLowStock(lowStockRes.data);
         setExpiringSoon(expiringRes.data);

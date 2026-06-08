@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { ShoppingCart, Plus, Trash2 } from 'lucide-react';
 
 const Sales = () => {
@@ -13,7 +13,7 @@ const Sales = () => {
   useEffect(() => {
     const fetchMedicines = async () => {
       try {
-        const res = await axios.get('http://localhost:5005/api/medicines');
+        const res = await api.get('/api/medicines');
         setMedicines(res.data);
       } catch (error) {
         console.error('Error fetching medicines', error);
@@ -67,11 +67,11 @@ const Sales = () => {
     if (cart.length === 0) return;
     try {
       const items = cart.map(item => ({ medicine_id: item.medicine_id, quantity: item.quantity }));
-      await axios.post('http://localhost:5005/api/sales', { items });
+      await api.post('/api/sales', { items });
       setCart([]);
       alert('Sale processed successfully!');
       // Refresh medicines to update stock
-      const res = await axios.get('http://localhost:5005/api/medicines');
+      const res = await api.get('/api/medicines');
       setMedicines(res.data);
     } catch (err) {
       setError(err.response?.data?.error || 'Error processing sale');

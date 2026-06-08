@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Plus, Search, Edit2, Trash2 } from 'lucide-react';
 
 const Medicines = () => {
@@ -16,7 +16,7 @@ const Medicines = () => {
 
   const fetchMedicines = async () => {
     try {
-      const res = await axios.get('http://localhost:5005/api/medicines');
+      const res = await api.get('/api/medicines');
       setMedicines(res.data);
     } catch (error) {
       console.error('Error fetching medicines', error);
@@ -33,9 +33,9 @@ const Medicines = () => {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5005/api/medicines/${editingId}`, formData);
+        await api.put(`/api/medicines/${editingId}`, formData);
       } else {
-        await axios.post('http://localhost:5005/api/medicines', formData);
+        await api.post('/api/medicines', formData);
       }
       setIsModalOpen(false);
       setEditingId(null);
@@ -61,7 +61,7 @@ const Medicines = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this medicine?')) {
       try {
-        await axios.delete(`http://localhost:5005/api/medicines/${id}`);
+        await api.delete(`/api/medicines/${id}`);
         fetchMedicines();
       } catch (error) {
         console.error('Error deleting medicine', error);

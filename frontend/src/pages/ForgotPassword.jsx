@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { Pill, ArrowLeft, CheckCircle, Mail, KeyRound, Eye, EyeOff, RefreshCw } from 'lucide-react';
 
 // ── Step 1: Email input
@@ -267,7 +267,7 @@ const ForgotPassword = () => {
   const sendOTP = async (emailVal) => {
     setLoading(true); setError('');
     try {
-      await axios.post('http://localhost:5005/api/auth/forgot-password', { email: emailVal });
+      await api.post('/api/auth/forgot-password', { email: emailVal });
       setEmail(emailVal);
       setStep(2);
     } catch (err) {
@@ -278,7 +278,7 @@ const ForgotPassword = () => {
   const verifyOTP = async (otp) => {
     setLoading(true); setError('');
     try {
-      const res = await axios.post('http://localhost:5005/api/auth/verify-otp', { email, otp });
+      const res = await api.post('/api/auth/verify-otp', { email, otp });
       setResetToken(res.data.resetToken);
       setStep(3);
     } catch (err) {
@@ -289,7 +289,7 @@ const ForgotPassword = () => {
   const resetPassword = async (newPassword) => {
     setLoading(true); setError('');
     try {
-      await axios.post('http://localhost:5005/api/auth/reset-password', { resetToken, newPassword });
+      await api.post('/api/auth/reset-password', { resetToken, newPassword });
       setStep(4);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to reset password.');

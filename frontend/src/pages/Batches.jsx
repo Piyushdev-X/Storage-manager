@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Plus, Search, Edit2, AlertCircle } from 'lucide-react';
 
 const Batches = () => {
@@ -17,8 +17,8 @@ const Batches = () => {
   const fetchData = async () => {
     try {
       const [batchesRes, medsRes] = await Promise.all([
-        axios.get('http://localhost:5005/api/batches'),
-        axios.get('http://localhost:5005/api/medicines')
+        api.get('/api/batches'),
+        api.get('/api/medicines')
       ]);
       setBatches(batchesRes.data);
       setMedicines(medsRes.data);
@@ -36,7 +36,7 @@ const Batches = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5005/api/batches', formData);
+      await api.post('/api/batches', formData);
       setIsModalOpen(false);
       setFormData({ medicine_id: '', batch_number: '', quantity: '', purchase_price: '', selling_price: '', expiry_date: '' });
       fetchData();

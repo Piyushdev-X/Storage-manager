@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Pill, AlertTriangle, Clock, IndianRupee } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -22,7 +22,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
-        const res = await axios.get('http://localhost:5005/api/reports/dashboard');
+        const res = await api.get('/api/reports/dashboard');
         setData(res.data);
       } catch (error) {
         console.error('Error fetching dashboard', error);
